@@ -6,7 +6,6 @@ bpa = bitsohandlerBeta.PublicApi()
 
 options =  ("AvailableBooks",
             "Ticker",
-            "OrderBook",
             "Trades")
 
 def askfor(object = None, book = None, marker = None, sort = None, limit = None, aggregate = None):
@@ -29,19 +28,18 @@ def askfor(object = None, book = None, marker = None, sort = None, limit = None,
     elif object == "Trades":
         try:
             trades = bpa.trades()
-            print(type(trades))
-            print(trades)
+            writecsv(object, trades)
         except Exception as e:
             raise
 
 def writecsv(Endpoint = None, Data = None):
     try:
-        if Endpoint == None:
-            raise AttributeError("No se especificó un formato de Endpoint.")
         path = "Data/Csvs/"
         sufix = ".csv"
+        if Endpoint == None:
+            raise AttributeError("No se especificó un formato de Endpoint.")
         if Endpoint == "AvailableBooks":
-            csvname = path + Endpoint + sufix
+            csvname = path + Endpoint + '_' + sufix
             ABdict = []
             id = 0
             while id < (len(Data)):
@@ -79,7 +77,7 @@ def writecsv(Endpoint = None, Data = None):
             try:
                 for i in Data:
                     book = i[3]
-                    csvname = path + Endpoint + book + sufix
+                    csvname = path + Endpoint + '_' + book + sufix
                     with open(csvname,'a', newline='') as csv_file:
                         csv_writer = csv.writer(csv_file)
                         header = ['high','last','created_at','book','volume','vwap','low','ask','bid','change_24']
@@ -90,10 +88,27 @@ def writecsv(Endpoint = None, Data = None):
                 raise
         elif Endpoint == "Trades":
             try:
-                pass
+                keys = []
+                for i in Data:
+                    keys.append(i)
+                for key in keys:
+                    for trade in Data[key]:
+                        csvname = path + Endpoint + '_' + key + sufix
+                        with open(csvname,'a', newline='') as csv_file:
+                            header = ['book','created_at','amount','maker_side','price','tid']
+                            writer = csv.DictWriter(csv_file, fieldnames = header)
+                            writer.writerow(trade)
             except Exception as e:
-                pass
+                print(e)
+                raise
     except Exception as e:
         raise
 
-askfor("Trades")
+def main():
+    while True:
+        for i in options:
+            askfor(i)
+        time.sleep(60)
+
+if __name__ == '__main__':
+    main()
