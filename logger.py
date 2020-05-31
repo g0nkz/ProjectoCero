@@ -1,93 +1,114 @@
-import logging
-import json
-import requests
-import time
-import urllib
 import csv
+import bitsohandlerBeta
+import time
 
-logging.basicConfig(filename='test.log',level=logging.DEBUG,
-                    format='%(asctime)s:%(name)s:%(levelname)s:%(message)s')
+bpa = bitsohandlerBeta.PublicApi()
 
-URL = "https://api.bitso.com/v3/"
+options =  ("AvailableBooks",
+            "Ticker",
+            "Trades")
 
-tickerr = [
-            'high',
-            'last',
-            'created_at',
-            'book',
-            'volume',
-            'vwap',
-            'low',
-            'ask',
-            'bid',
-            'change_24'
-]
+def askfor(object = None, book = None, marker = None, sort = None, limit = None, aggregate = None):
+    if object  ==  None:
+        print ("No object request")
+    elif object == "AvailableBooks":
+        try:
+            books = bpa.available_books()
+            writecsv(object,books)
+        except Exception as e:
+            print(e)
+            raise
+    elif object == "Ticker":
+        try:
+            ticker = bpa.ticker()
+            writecsv(object,ticker)
+        except Exception as e:
+            print(e)
+            raise
+    elif object == "Trades":
+        try:
+            trades = bpa.trades()
+            writecsv(object, trades)
+        except Exception as e:
+            raise
 
-def get_url(url):
+def writecsv(Endpoint = None, Data = None):
     try:
-        response = requests.get(url)
-        content = response.content.decode("utf8")
-        return content
-    except requests.exceptions.ConnectionError as e:
-        logging.error("PROBLEMAS DE CONEXIÓN.")
-        logging.error(e)
-
-def get_json_from_url(url):
-    try:
-        content = get_url(url)
-        js = json.loads(content)
-        return js
-    except TypeError as e:
-        logging.error("GET_JSON_FROM_URL")
-        logging.error(e)
-
-def ticker():
-    try:
-        tick = []
-        url = URL + "ticker/"
-        ticker = get_json_from_url(url)
-        for i in ticker["payload"]:
-            tick.append(i)
-        return tick
+        path = "Data/Csvs/"
+        sufix = ".csv"
+        if Endpoint == None:
+            raise AttributeError("No se especificó un formato de Endpoint.")
+        if Endpoint == "AvailableBooks":
+            csvname = path + Endpoint + '_' + sufix
+            ABdict = []
+            id = 0
+            while id < (len(Data)):
+                jaxa = []
+                count = 0
+                while count < 1:
+                    jaxa.append(id)
+                    jaxa.append(Data[id])
+                    count += 1
+                ABdict.append(jaxa)
+                id += 1
+            comparator = []
+            try:
+                with open(csvname,'r') as csv_file:
+                    csv_reader = csv.reader(csv_file)
+                    next(csv_reader)
+                    for i in csv_reader:
+                        i[0] = int(i[0])
+                        comparator.append(i)
+                if comparator == ABdict:
+                    pass
+                else:
+                    with open(csvname,'w') as csv_file:
+                        csv_writer = csv.writer(csv_file)
+                        csv_writer.writerow(["id","book"])
+                        for i in ABdict:
+                            csv_writer.writerow(i)
+            except:
+                with open(csvname,'w') as csv_file:
+                    csv_writer = csv.writer(csv_file)
+                    csv_writer.writerow(["id","book"])
+                    for i in ABdict:
+                        csv_writer.writerow(i)
+        elif Endpoint == "Ticker":
+            try:
+                for i in Data:
+                    book = i[3]
+                    csvname = path + Endpoint + '_' + book + sufix
+                    with open(csvname,'a', newline='') as csv_file:
+                        csv_writer = csv.writer(csv_file)
+                        header = ['high','last','created_at','book','volume','vwap','low','ask','bid','change_24']
+                        tickdict = dict(zip(header,i))
+                        csv_writer = csv.DictWriter(csv_file, fieldnames = header)
+                        csv_writer.writerow(tickdict)
+            except AttributeError as e:
+                raise
+        elif Endpoint == "Trades":
+            try:
+                keys = []
+                for i in Data:
+                    keys.append(i)
+                for key in keys:
+                    for trade in Data[key]:
+                        csvname = path + Endpoint + '_' + key + sufix
+                        with open(csvname,'a', newline='') as csv_file:
+                            header = ['book','created_at','amount','maker_side','price','tid']
+                            writer = csv.DictWriter(csv_file, fieldnames = header)
+                            writer.writerow(trade)
+            except Exception as e:
+                print(e)
+                raise
     except Exception as e:
-        logging.error("TICKER")
-        logging.error(e)
+        raise
 
-def log():
-    try:
-        Tick = ticker()
-        book = 0
-        while book < len(Tick):
-            writecsv(Tick[book])
-            book = book + 1
-    except Exception as e:
-        logging.error("LOG")
-        logging.error(e)
-
-def writecsv(booklist):
-    try:
-        book = booklist['book']
-        path = 'Ticker/'
-        sufix = '.csv'
-        csvname = path + book + sufix
-        with open(csvname,'a',newline='') as csv_file:
-            cabecera = ['high','last','created_at','book','volume','vwap','low','ask','bid','change_24']
-            csv_writer = csv.DictWriter(csv_file, fieldnames=cabecera)
-            csv_writer.writerow(booklist)
-    except Exception as e:
-        logging.error("WRITE CSV")
-        logging.error(e)
-
-while True:
-    try:
-        ToLog = log()
-        exito = "Se ha hecho el registro sin problemas. Proximo registro en 60 s"
-        logging.debug(exito)
+def main():
+    while True:
+        for i in options:
+            askfor(i)
         time.sleep(60)
-    except TypeError as e:
-        logging.error("ERROR EN EL OBJETO JSON.")
-        logging.error(e)
-    except json.decoder.JSONDecodeError as e:
-        logging.error("LA PÁGINA NO ES LA ESPERADA, POR ENDE NO SE PUDO PROCESAR.")
-        logging.error(e)
 
+if __name__ == '__main__':
+    main()
