@@ -1,4 +1,4 @@
-#PYTHON 3.6.2
+#PYTHON 3.8.2
 #LGsus
 
 import json
