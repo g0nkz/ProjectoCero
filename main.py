@@ -12,7 +12,6 @@ from InLinemessage_dictionary import *
 
 bpa = bitsohandler.PublicApi()
 dbu = dbhelper.DBUsers()
-dbb = dbhelper.DBBitso()
 ltext = []
 
 #DECLARAR ID DEL BOT Y URL DE TELEGRAM
@@ -98,18 +97,6 @@ def handle_users(updates):
             users = dbu.get_users()
         if UId not in users:
             dbu.add_user(UId, IsBot, FirstName, LastName, LanguageCode)
-
-def handle_bitso(updates):
-    for update in updates["result"]:
-        if "callback_query" in update:
-            UId = update["callback_query"]["from"]["id"]
-            users = dbu.get_users()
-        else:
-            UId = update["message"]["from"]["id"]
-            users = dbu.get_users()
-        if UId not in users:
-            dbu.add_user(UId, IsBot, FirstName, LastName, LanguageCode)
-
 
 #RESPONDER A TODOS LOS NO LEIDOS
 def handle_updates(updates):
@@ -291,8 +278,8 @@ def search_text(text, chat, UId):
         keyboard = build_inlinekeyboard(orderbookr)
         send_message(mensajes["orderbookr"], chat, keyboard)
     elif text == "Pública.":
-        keyboard = build_inlinekeyboard(apipublica)
-        send_message(mensajes["apipublica"], chat, keyboard)
+        keyboard = build_inlinekeyboard(acuerdopositivo)
+        send_message(mensajes["acepto"], chat, keyboard)
     elif text == "Privada.":
         keyboard = build_inlinekeyboard(apiprivada)
         send_message(mensajes["apiprivada"], chat, keyboard)
@@ -336,15 +323,17 @@ send_message(text, chat)
 
 ##EJECUTAR
 def main():
-    dbu.setup()
-    dbb.setup()
-    last_update_id = None
-    while True:
-        updates = get_updates(last_update_id)
-        if len(updates["result"]) > 0:
-            last_update_id = get_last_update_id(updates) + 1
-            handle_updates(updates)
-        time.sleep(0.5)
+    try:
+        dbu.setup()
+        last_update_id = None
+        while True:
+            updates = get_updates(last_update_id)
+            if len(updates["result"]) > 0:
+                last_update_id = get_last_update_id(updates) + 1
+                handle_updates(updates)
+            time.sleep(0.5)
+    except Exception as e:
+        raise e
 
 #CONDICION PARA EJECUTAR
 if __name__ == '__main__':

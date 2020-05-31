@@ -5,32 +5,29 @@ mensajes = {
  uso de la misma usted esta de acuerdo con lo siguiente:\n\
 -Usted es el único responsable por su uso.\n\
 -Usted hace uso de esta aplicación bajo su propio riesgo.\n\
--No se garantiza el correcto funcionamiento de la misma.',
-    'acepto':'Muy bien. Ahora, ¿Qué API desea usar? \n\
--Usar API pública. \n\
--Usar API privada. \n\
-Seleccione cualquiera para ver que opciones tiene.',
-    'noacepto':'Si cambia de opinión presione el siguiente botón.',
-    'apipublica':'Las opciones para la API pública son las \
-siguientes:\n\
+-No se garantiza el correcto funcionamiento de la misma.\n\
+También acepta que los siguientes datos serán guardados \n\
+para mejorar el servicio:\n\
+-Identificador de usuario.\n\
+-Es bot.\n\
+-Nombre.\n\
+-Apellido.\n\
+-Código de lenguaje.\n\
+Para más información por favor visite:\n\
+https://core.telegram.org/bots/api#use',
+    'acepto':'Muy bien, ahora puede acceder a alguna de las siguientes opciones:\n\
 Libros disponibles: Muestra una lista de los libros disponibles.\n\
 Ticker: Muestra la información del libro seleccionado\n\
 Libro de ordenes: Muestra la lista de las ordenes del libro seleccionado.\n\
 Intercambios: Muestra una lista con los intercambios recientes de libro seleccionado.\n\
 Regresar: Regresa al menú anterior.',
+    'noacepto':'Si cambia de opinión presione el siguiente botón.',
     'availablebooksr':'¿Qué desea hacer ahora?¿Ver otra vez los codigos o regresar?',
     'ticker':'Por favor eliga alguno de los libros disponibles.',
     'tickere':'¿Qué desea hacer ahora?\n¿Ver otro libro o regresar a la API Pública?',
     'orderbookr':'¿Qué parte del libro desea ver?\n¿Las compras o las ventas?',
     'trades':'Por favor eliga algun de los libros disponibles.',
-    'tradesr':'¿Que desea hacer ahora?\n¿Regresar a Trades o regresar a la API Pública',
-    'apiprivada':'Para ver las opciones de la API privada de Bitso primero \
-tiene que insertar sus llaves de Bitso.',
-    'entrar0':'Solo queremos asegurarnos de que esta seguro de querer entrar \
-en su cuenta de Bitso a través de este bot.',
-    'entrar1':'Por favor inserte su "Clave API" y presione "Listo".',
-    'entrar2':'Por favor inserte su "Secreto API" y presione "Listo".',
-    'entrar3':'Espere mientras comprobamos los datos proporcionados'
+    'tradesr':'¿Que desea hacer ahora?\n¿Regresar a Trades o regresar a la API Pública'
 }
 
 acuerdo = [
@@ -39,21 +36,15 @@ acuerdo = [
 ]
 
 acuerdopositivo = [
-{'text':'Pública.','callback_data':'Pública.'},
-{'text':'Privada','callback_data':'Privada.'},
-{'text':'Ayuda','callback_data':'Ayuda'}
-]
-
-acuerdonegativo = [
-{'text':'Cambié de opinión.','callback_data':'/Acepto.'}
-]
-
-apipublica = [
 {'text': 'AvailableBooks', 'callback_data': '/AvailableBooks'},
 {'text': 'Ticker', 'callback_data': 'Ticker'},
 {'text': 'OrderBook', 'callback_data': 'OrderBook'},
 {'text': 'Trades', 'callback_data': 'Trades'},
 {'text': 'Regresar', 'callback_data': '/Acepto.'}
+]
+
+acuerdonegativo = [
+{'text':'Cambié de opinión.','callback_data':'/Acepto.'}
 ]
 
 ticker = [
@@ -152,28 +143,4 @@ trades = [
 tradese = [
 {'text':'Regresar a Trades','callback_data':'Trades'},
 {'text':'API Pública','callback_data':'Pública.'}
-]
-
-apiprivada = [
-{'text':'Entrar.', 'callback_data':'Entrar.'},
-{'text':'Ayuda (Bitso).', 'url':'https://bitso.com/api_info'},
-{'text':'Regresar','callback_data':'Pública,'}
-]
-
-entrar = [
-{'text':'Estoy seguro.','callback_data':'/Entrar'},
-{'text':'No estoy seguro.','callback_data':'Privada.'},
-{'text':'Ayuda','callback_data':'None'}
-]
-
-key0 = [
-{'text':'Listo.','callback_data':'/Key0'},
-{'text':'Regresar.','callback_data':'Privada.'},
-{'text':'Cancelar.','callback_data':'/CancelarRegistro'}
-]
-
-key1 = [
-{'text':'Listo.','callback_data':'/Key1'},
-{'text':'Regresar','callback_data':'/Entrar'},
-{'text':'Cancelar.','callback_data':'/CancelarRegistro'}
 ]
