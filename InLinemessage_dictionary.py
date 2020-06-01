@@ -1,8 +1,7 @@
 #Lista de textos
 
 mensajes = {
-    'start':'Esta es una aplicación de pruebas por lo que al hacer\
- uso de la misma usted esta de acuerdo con lo siguiente:\n\
+    'start':'Esta es una aplicación de pruebas por lo que al hacer uso de la misma usted esta de acuerdo con lo siguiente:\n\
 -Usted es el único responsable por su uso.\n\
 -Usted hace uso de esta aplicación bajo su propio riesgo.\n\
 -No se garantiza el correcto funcionamiento de la misma.\n\
@@ -19,8 +18,7 @@ https://core.telegram.org/bots/api#use',
 Libros disponibles: Muestra una lista de los libros disponibles.\n\
 Ticker: Muestra la información del libro seleccionado\n\
 Libro de ordenes: Muestra la lista de las ordenes del libro seleccionado.\n\
-Intercambios: Muestra una lista con los intercambios recientes de libro seleccionado.\n\
-Regresar: Regresa al menú anterior.',
+Intercambios: Muestra una lista con los intercambios recientes de libro seleccionado.\n ',
     'noacepto':'Si cambia de opinión presione el siguiente botón.',
     'availablebooksr':'¿Qué desea hacer ahora?¿Ver otra vez los codigos o regresar?',
     'ticker':'Por favor eliga alguno de los libros disponibles.',
@@ -29,6 +27,8 @@ Regresar: Regresa al menú anterior.',
     'trades':'Por favor eliga algun de los libros disponibles.',
     'tradesr':'¿Que desea hacer ahora?\n¿Regresar a Trades o regresar a la API Pública'
 }
+
+#Lista de 'botones'.
 
 acuerdo = [
 {'text':'Acepto.','callback_data':'/Acepto.'},
@@ -39,8 +39,7 @@ acuerdopositivo = [
 {'text': 'AvailableBooks', 'callback_data': '/AvailableBooks'},
 {'text': 'Ticker', 'callback_data': 'Ticker'},
 {'text': 'OrderBook', 'callback_data': 'OrderBook'},
-{'text': 'Trades', 'callback_data': 'Trades'},
-{'text': 'Regresar', 'callback_data': '/Acepto.'}
+{'text': 'Trades', 'callback_data': 'Trades'}
 ]
 
 acuerdonegativo = [
