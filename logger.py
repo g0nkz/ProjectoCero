@@ -1,14 +1,16 @@
 import csv
-import bitsohandlerBeta
+import bitsohandler
 import time
 
-bpa = bitsohandlerBeta.PublicApi()
+bpa = bitsohandler.PublicApi()
 
 options =  ("AvailableBooks",
+            "OrderBook"
             "Ticker",
             "Trades")
 
 def askfor(object = None, book = None, marker = None, sort = None, limit = None, aggregate = None):
+    print(object)
     if object  ==  None:
         print ("No object request")
     elif object == "AvailableBooks":
@@ -16,21 +18,26 @@ def askfor(object = None, book = None, marker = None, sort = None, limit = None,
             books = bpa.available_books()
             writecsv(object,books)
         except Exception as e:
-            print(e)
-            raise
+            raise e
+    elif object == "OrderBook":
+        try:
+            orders = bpa.orderbook()
+            writecsv(object, orders)
+        except Exception as e:
+            raise e
+        pass
     elif object == "Ticker":
         try:
             ticker = bpa.ticker()
             writecsv(object,ticker)
         except Exception as e:
-            print(e)
-            raise
+            raise e
     elif object == "Trades":
         try:
             trades = bpa.trades()
             writecsv(object, trades)
         except Exception as e:
-            raise
+            raise e
 
 def writecsv(Endpoint = None, Data = None):
     try:
@@ -85,7 +92,9 @@ def writecsv(Endpoint = None, Data = None):
                         csv_writer = csv.DictWriter(csv_file, fieldnames = header)
                         csv_writer.writerow(tickdict)
             except AttributeError as e:
-                raise
+                raise e
+        elif Endpoint == "OrderBook":
+            pass
         elif Endpoint == "Trades":
             try:
                 keys = []
@@ -99,16 +108,17 @@ def writecsv(Endpoint = None, Data = None):
                             writer = csv.DictWriter(csv_file, fieldnames = header)
                             writer.writerow(trade)
             except Exception as e:
-                print(e)
-                raise
+                raise e
     except Exception as e:
-        raise
+        raise e
 
-def main():
-    while True:
-        for i in options:
-            askfor(i)
-        time.sleep(60)
-
-if __name__ == '__main__':
-    main()
+askfor("OrderBook")
+# def main():
+#     while True:
+#         for i in options:
+#             print(i)
+#             askfor(i)
+#         time.sleep(60)
+#
+# if __name__ == '__main__':
+#     main()

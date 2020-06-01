@@ -77,29 +77,36 @@ class PublicApi:
             tick.append(list)
         return tick
 
-    def orderbook(self,book,aggregate=None):
+    def orderbook(self,aggregate=None):
         try:
-            url = URL + "order_book?book={}".format(book)
-            lbids = []
-            lasks = []
-            if aggregate == None:
-                orders = get_json_from_url(url)
-                Fecha = orders["payload"]["updated_at"]
-                bids = orders["payload"]["bids"]
-                asks = orders["payload"]["asks"]
-                for bids in bids:
-                    lbids.append(bids["price"])
-                    lbids.append(bids["amount"])
-                for asks in asks:
-                    lasks.append(asks["price"])
-                    lasks.append(asks["amount"])
-                return (lbids,lasks, Fecha)
-            else:
-                url = url + "&aggregate=false"
-                orders = get_json_from_url(url)
+            books = PublicApi.available_books(self)
+            orderbooks = []
+            keysside = ['book', 'price', 'amount']
+            keysbook = ['bids','asks']
+            for book in books:
+                url = URL + "order_book?book={}".format(book)
+                lbids = []
+                lasks = []
+                if aggregate == None:
+                    orders = get_json_from_url(url)
+                    for keyb in keysbook:
+                        length = len(orders['payload'][keyb])
+                        count = 0
+                        while count < length:
+                            tlist = []
+                            for keys in keysside:
+                                tlist.append(orders['payload'][keyb][count][keys])
+                            tlist.append(keyb)
+                            tlist.append(orders['payload']['updated_at'])
+                            tlist.append(orders['payload']['sequence'])
+                            orderbooks.append(tlist)
+                            count += 1
+                    return orderbooks
+                else:
+                    url = url + "&aggregate=false"
+                    orders = get_json_from_url(url)
         except Exception as e:
-            a = orders["error"]["message"]
-            return a
+            raise e
 
     def trades(self, marker=None):
         try:
