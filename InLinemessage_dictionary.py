@@ -46,6 +46,11 @@ acuerdonegativo = [
 {'text':'Cambié de opinión.','callback_data':'/Acepto.'}
 ]
 
+AvailableBooks = [
+{'text':"Available Books",'callback_data':"/AvailableBooks"},
+{'text':"Regresar",'callback_data':"Pública."}
+]
+
 ticker = [
 {'text':'btc - mxn','callback_data':'/Tickerbtc_mxn'},
 {'text':'eth - btc','callback_data':'/Tickereth_btc'},

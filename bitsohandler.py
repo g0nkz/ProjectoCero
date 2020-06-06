@@ -84,6 +84,7 @@ class PublicApi:
             keysside = ['book', 'price', 'amount']
             keysbook = ['bids','asks']
             for book in books:
+                listbook = []
                 url = URL + "order_book?book={}".format(book)
                 lbids = []
                 lasks = []
@@ -99,12 +100,13 @@ class PublicApi:
                             tlist.append(keyb)
                             tlist.append(orders['payload']['updated_at'])
                             tlist.append(orders['payload']['sequence'])
-                            orderbooks.append(tlist)
+                            listbook.append(tlist)
                             count += 1
-                    return orderbooks
                 else:
                     url = url + "&aggregate=false"
                     orders = get_json_from_url(url)
+                orderbooks.append(listbook)
+            return orderbooks
         except Exception as e:
             raise e
 

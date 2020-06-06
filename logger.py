@@ -4,13 +4,7 @@ import time
 
 bpa = bitsohandler.PublicApi()
 
-options =  ("AvailableBooks",
-            "OrderBook"
-            "Ticker",
-            "Trades")
-
 def askfor(object = None, book = None, marker = None, sort = None, limit = None, aggregate = None):
-    print(object)
     if object  ==  None:
         print ("No object request")
     elif object == "AvailableBooks":
@@ -22,7 +16,7 @@ def askfor(object = None, book = None, marker = None, sort = None, limit = None,
     elif object == "OrderBook":
         try:
             orders = bpa.orderbook()
-            writecsv(object, orders)
+            writecsv(object,orders)
         except Exception as e:
             raise e
         pass
@@ -40,13 +34,12 @@ def askfor(object = None, book = None, marker = None, sort = None, limit = None,
             raise e
 
 def writecsv(Endpoint = None, Data = None):
+    print(Endpoint)
     try:
         path = "Data/Csvs/"
         sufix = ".csv"
-        if Endpoint == None:
-            raise AttributeError("No se especificó un formato de Endpoint.")
         if Endpoint == "AvailableBooks":
-            csvname = path + Endpoint + '_' + sufix
+            csvname = path + Endpoint + sufix
             ABdict = []
             id = 0
             while id < (len(Data)):
@@ -80,6 +73,17 @@ def writecsv(Endpoint = None, Data = None):
                     csv_writer.writerow(["id","book"])
                     for i in ABdict:
                         csv_writer.writerow(i)
+        elif Endpoint == "OrderBook":
+            try:
+                for book in Data:
+                        libro = book[0][0]
+                        csvname = path + Endpoint + '_' + libro + sufix
+                        with open(csvname, 'w', newline='') as csv_file:
+                            for order in book:
+                                writer = csv.writer(csv_file)
+                                writer.writerow(order)
+            except Exception as e:
+                raise e
         elif Endpoint == "Ticker":
             try:
                 for i in Data:
@@ -93,9 +97,8 @@ def writecsv(Endpoint = None, Data = None):
                         csv_writer.writerow(tickdict)
             except AttributeError as e:
                 raise e
-        elif Endpoint == "OrderBook":
-            pass
         elif Endpoint == "Trades":
+
             try:
                 keys = []
                 for i in Data:
@@ -109,16 +112,18 @@ def writecsv(Endpoint = None, Data = None):
                             writer.writerow(trade)
             except Exception as e:
                 raise e
+        elif Endpoint == None:
+            raise AttributeError("No se especificó un formato de Endpoint.")
     except Exception as e:
         raise e
 
-askfor("OrderBook")
-# def main():
-#     while True:
-#         for i in options:
-#             print(i)
-#             askfor(i)
-#         time.sleep(60)
-#
-# if __name__ == '__main__':
-#     main()
+def main():
+    while True:
+        askfor("AvailableBooks")
+        askfor("OrderBook")
+        askfor("Ticker")
+        askfor("Trades")
+        time.sleep(60)
+
+if __name__ == '__main__':
+    main()

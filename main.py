@@ -137,8 +137,7 @@ def search_text(text, chat, UId):
                 librob.append(libroa)
                 librob.append("\n")
             send_message(libroc.join(librob), chat)
-            back = [{'text':"Regresar",'callback_data':"Pública."},{'text':"Available Books",'callback_data':"/AvailableBooks"}]
-            keyboard = build_inlinekeyboard(back)
+            keyboard = build_inlinekeyboard(AvailableBooks)
             send_message(mensajes["availablebooksr"], chat, keyboard)
         ##ACEPTO##
         elif comando == "Acepto.":
