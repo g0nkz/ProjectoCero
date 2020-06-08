@@ -73,10 +73,10 @@ ticker = [
 ]
 
 tickerr = [
-'Usted eligió el libro: {}',
 'Alto: {}',
 'Ultimo: {}',
 'Fecha: {}',
+'Libro: {}',
 'Volumen: {}',
 'PMP: {}',
 'Bajo: {}',

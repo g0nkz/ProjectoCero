@@ -1,10 +1,11 @@
 #PYTHON 3.8.2
 #LGsus
 
-import json
-import requests
+import csv
 import time
+import json
 import urllib
+import requests
 import dbhelper
 import bitsohandler
 from credentials import *
@@ -117,6 +118,29 @@ def handle_updates(updates):
         #BUSCA QUÉ HACER CON EL TEXTO QUE LLEGA..
         search_text(text, chat, UId)
 
+#BUSCA LA INFORMACION SOLICITADA
+def retrieve_data(EndPoint, Book = None):
+    path = 'Data/Csvs/'
+    sufix = '.csv'
+    if EndPoint == 'AvailableBooks':
+        Returner = []
+        csvname = path + EndPoint + sufix
+        with open(csvname,'r') as csv_file:
+            reader = csv.reader(csv_file)
+            next(reader)
+            for i in reader:
+                Returner.append(i[1])
+        return Returner
+    if EndPoint == 'Ticker':
+        csvname = path + EndPoint + '_' + Book + sufix
+        with open(csvname,'r') as csv_file:
+            reader = csv.reader(csv_file)
+            lista = list(reader)
+            Returner = lista[-1]
+        return Returner
+    pass
+
+#DETERMINAR QUE HACER A PARTIR DEL TEXTO RECIVIDO
 def search_text(text, chat, UId):
     print(text)
     ltext = text
@@ -128,10 +152,9 @@ def search_text(text, chat, UId):
             send_message(mensajes["start"], chat, keyboard)
         ##LIBROS DISPONIBLES##
         elif comando == "AvailableBooks":
-            libros = bpa.available_books()
+            libros = retrieve_data(comando)
             librob = []
             libroc = ""
-            #send_message(mensajes["availablebooksr"], chat)
             for libro in libros:
                 libroa = libro.replace('_',' - ')
                 librob.append(libroa)
@@ -150,10 +173,11 @@ def search_text(text, chat, UId):
         ##TICKER##
         elif comando.startswith("Ticker"):
             book = comando[6:]
-            tick = bpa.ticker(book)
+            EndPoint = comando[:6]
+            tick = retrieve_data(EndPoint, book)
             ntick = 0
-            atick = 1
-            c = ""
+            atick = 0
+            a = ""
             d = []
             for i in tick:
                 b = tickerr[atick].format(tick[ntick])
@@ -161,7 +185,8 @@ def search_text(text, chat, UId):
                 d.append("\n")
                 ntick = ntick + 1
                 atick = atick + 1
-            send_message(c.join(d), chat)
+            c = a.join(d)
+            send_message(c, chat)
             keyboard = build_inlinekeyboard(tickere)
             send_message(mensajes["tickere"], chat, keyboard)
         ##ORDERBOOK COMPRAS##
@@ -312,7 +337,7 @@ def get_last_chat_id_and_text(updates):
 def send_message(text, chat_id, reply_markup=None):
     text = text.encode(encoding='utf-8')
     text = urllib.parse.quote_plus(text)
-    url = URL + "sendMessage?text={}&chat_id={}&parse_mode=Markdown".format(text, chat_id)
+    url = URL + "sendMessage?text={}&chat_id={}".format(text, chat_id)
     if reply_markup:
         url += "&reply_markup={}".format(reply_markup)
     get_url(url)
