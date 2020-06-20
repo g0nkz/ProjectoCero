@@ -51,27 +51,6 @@ AvailableBooks = [
 {'text':"Regresar",'callback_data':"Pública."}
 ]
 
-ticker = [
-{'text':'btc - mxn','callback_data':'/Tickerbtc_mxn'},
-{'text':'eth - btc','callback_data':'/Tickereth_btc'},
-{'text':'eth - mxn','callback_data':'/Tickereth_mxn'},
-{'text':'xrp - btc','callback_data':'/Tickerxrp_btc'},
-{'text':'xrp - mxn','callback_data':'/Tickerxrp_mxn'},
-{'text':'ltc - btc','callback_data':'/Tickerltc_btc'},
-{'text':'ltc - mxn','callback_data':'/Tickerltc_mxn'},
-{'text':'bch - btc','callback_data':'/Tickerbch_btc'},
-{'text':'bch - mxn','callback_data':'/Tickerbch_mxn'},
-{'text':'tusd - btc','callback_data':'/Tickertusd_btc'},
-{'text':'tusd - mxn','callback_data':'/Tickertusd_mxn'},
-{'text':'mana - btc','callback_data':'/Tickermana_btc'},
-{'text':'mana - mxn','callback_data':'/Tickermana_mxn'},
-{'text':'gnt - btc','callback_data':'/Tickergnt_btc'},
-{'text':'gnt - mxn','callback_data':'/Tickergnt_mxn'},
-{'text':'bat - btc','callback_data':'/Tickerbat_btc'},
-{'text':'bat - mxn','callback_data':'/Tickerbat_mxn'},
-{'text': 'Regresar', 'callback_data': 'Pública.'}
-]
-
 tickerr = [
 'Alto: {}',
 'Ultimo: {}',
@@ -111,37 +90,11 @@ orderbook = [
 {'text': 'Regresar', 'callback_data': 'Pública.'}
 ]
 
-orderbookr = [
-{'text':'Compras','callback_data':'/Compras'},
-{'text':'Ventas','callback_data':'/Ventas'}
-]
-
 orderbookrr = ['Precio: {}', 'Cantidad: {}']
 
 orderbooke = [
 {'text':'Regresar a OrderBook','callback_data':'OrderBook'},
 {'text':'API Pública','callback_data':'Pública.'}
-]
-
-trades = [
-{'text':'btc - mxn','callback_data':'/Tradesbtc_mxn'},
-{'text':'eth - btc','callback_data':'/Tradeseth_btc'},
-{'text':'eth - mxn','callback_data':'/Tradeseth_mxn'},
-{'text':'xrp - btc','callback_data':'/Tradesxrp_btc'},
-{'text':'xrp - mxn','callback_data':'/Tradesxrp_mxn'},
-{'text':'ltc - btc','callback_data':'/Tradesltc_btc'},
-{'text':'ltc - mxn','callback_data':'/Tradesltc_mxn'},
-{'text':'bch - btc','callback_data':'/Tradesbch_btc'},
-{'text':'bch - mxn','callback_data':'/Tradesbch_mxn'},
-{'text':'tusd - btc','callback_data':'/Tradestusd_btc'},
-{'text':'tusd - mxn','callback_data':'/Tradestusd_mxn'},
-{'text':'mana - btc','callback_data':'/Tradesmana_btc'},
-{'text':'mana - mxn','callback_data':'/Tradesmana_mxn'},
-{'text':'gnt - btc','callback_data':'/Tradesgnt_btc'},
-{'text':'gnt - mxn','callback_data':'/Tradesgnt_mxn'},
-{'text':'bat - btc','callback_data':'/Tradesbat_btc'},
-{'text':'bat - mxn','callback_data':'/Tradesbat_mxn'},
-{'text': 'Regresar', 'callback_data': 'Pública.'}
 ]
 
 tradese = [

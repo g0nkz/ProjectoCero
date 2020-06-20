@@ -11,7 +11,6 @@ import bitsohandler
 from credentials import *
 from InLinemessage_dictionary import *
 
-bpa = bitsohandler.PublicApi()
 dbu = dbhelper.DBUsers()
 ltext = []
 
@@ -44,12 +43,6 @@ def get_last_update_id(updates):
     for update in updates["result"]:
         update_ids.append(int(update["update_id"]))
     return max(update_ids)
-
-#CREAR EL TECLADO
-def build_keyboard(items):
-    keyboard = [[item] for item in items]
-    reply_markup = {"keyboard":keyboard, "one_time_keyboard":True, "resize_keyboard":True}
-    return json.dumps(reply_markup)
 
 #CREAR TECLADO EN LINEA
 def build_inlinekeyboard(items):
@@ -138,7 +131,29 @@ def retrieve_data(EndPoint, Book = None):
             lista = list(reader)
             Returner = lista[-1]
         return Returner
-    pass
+
+def CreateDictForKeyboar(list,EndPoint=None):
+    Returner = []
+    for i in list:
+        Format = {'text':'','callback_data':''}
+        Format['text'] = i
+        CallBackData = '/' + EndPoint + i
+        Format['callback_data'] = CallBackData
+        Returner.append(Format)
+    Regresar = {'text': 'Regresar', 'callback_data': 'Pública.'}
+    Returner.append(Regresar)
+    return Returner
+
+def OrderBookDictCreator(Book):
+    Returner = [
+    {'text':'Compras','callback_data':''},
+    {'text':'Ventas','callback_data':''}
+    ]
+    CallBackDataCompras = '/Compras' + Book
+    CallBackDataVentas = '/Ventas' + Book
+    Returner[0]['callback_data'] = CallBackDataCompras
+    Returner[1]['callback_data'] = CallBackDataVentas
+    return Returner
 
 #DETERMINAR QUE HACER A PARTIR DEL TEXTO RECIVIDO
 def search_text(text, chat, UId):
@@ -146,6 +161,7 @@ def search_text(text, chat, UId):
     ltext = text
     if text.startswith("/"):
         comando = text[1:]
+        print('xxxxx')
         ##START##
         if comando == "start":
             keyboard = build_inlinekeyboard(acuerdo)
@@ -189,14 +205,18 @@ def search_text(text, chat, UId):
             send_message(c, chat)
             keyboard = build_inlinekeyboard(tickere)
             send_message(mensajes["tickere"], chat, keyboard)
+        ##ORDERBOOK##
+        elif comando.startswith("OrderBook"):
+            book = comando[9:]
+            response = OrderBookDictCreator(book)
+            keyboard = build_inlinekeyboard(response)
+            send_message(mensajes["orderbookr"], chat, keyboard)
         ##ORDERBOOK COMPRAS##
-        elif comando == "Compras":
+        elif comando.startswith("Compras"):
             try:
                 bbook = ltext
                 book = bbook[9:]
-                if book == "":
-                    raise TypeError ("Libro incorrecto")
-                lbids, lasks, Fecha = bpa.orderbook(book)
+                print(book)
                 a = 0
                 b = 0
                 c = 1
@@ -222,7 +242,7 @@ def search_text(text, chat, UId):
                 keyboard = build_inlinekeyboard(orderbooke)
                 send_message(mensajes["tickere"], chat, keyboard)
             except TypeError as e:
-                send_message(str(e), chat)
+                print(e)
         ##ORDERBOOK VENTAS##
         elif comando == "Ventas":
             try:
@@ -257,10 +277,10 @@ def search_text(text, chat, UId):
                 keyboard = build_inlinekeyboard(orderbooke)
                 send_message(mensajes["tickere"], chat, keyboard)
             except TypeError as e:
-                send_message(str(e), chat)
+                print(e)
         elif comando.startswith("Trades"):
             try:
-                ltext = dbm.return_beforelastmessage(UId, 1)
+                #ltext = dbm.return_beforelastmessage(UId, 1)
                 bbook = ltext
                 book = bbook[7:]
                 if book == "":
@@ -272,35 +292,21 @@ def search_text(text, chat, UId):
                 send_message(mensajes["tradesr"],chat,keyboard)
             except TypeError as e:
                 send_message(str(e),chat)
-        elif comando == "Entrar":
-            keyboard = build_inlinekeyboard(key0)
-            send_message(mensajes["entrar1"],chat,keyboard)
-        elif comando == "Key0":
-            keyboard = build_inlinekeyboard(key1)
-            send_message(mensajes["entrar2"],chat,keyboard)
-        elif comando == "Key1":
-            Bitso1 = dbm.return_beforelastmessage(UId, 2)
-            Bitso0 = dbm.return_beforelastmessage(UId, 4)
-            #print(Bitso0 + " BICSO0")
-            #print(Bitso1 + " BICSO1")
-            send_message(mensajes["entrar3"],chat)
-            dbb.add_bitso(UId, Bitso0, Bitso1)
-            #print(UId)
-            axa = dbb.get_bitso(UId)
-            #print(axa)
-        #elif comando == "AccountStatus":
     elif text == "Trades":
-        keyboard = build_inlinekeyboard(trades)
+        trades = retrieve_data('AvailableBooks')
+        TradesToSend = CreateDictForKeyboar(trades, text)
+        keyboard = build_inlinekeyboard(TradesToSend)
         send_message(mensajes["trades"], chat, keyboard)
     elif text == "Ticker":
-        keyboard = build_inlinekeyboard(ticker)
+        libros = retrieve_data('AvailableBooks')
+        tickexxxx = CreateDictForKeyboar(libros, text)
+        keyboard = build_inlinekeyboard(tickexxxx)
         send_message(mensajes["ticker"], chat, keyboard)
     elif text == "OrderBook":
-        keyboard = build_inlinekeyboard(orderbook)
+        orders = retrieve_data('AvailableBooks')
+        OrdersToSend = CreateDictForKeyboar(orders, text)
+        keyboard = build_inlinekeyboard(OrdersToSend)
         send_message(mensajes["ticker"], chat, keyboard)
-    elif text.startswith("OrderBook"):
-        keyboard = build_inlinekeyboard(orderbookr)
-        send_message(mensajes["orderbookr"], chat, keyboard)
     elif text == "Pública.":
         keyboard = build_inlinekeyboard(acuerdopositivo)
         send_message(mensajes["acepto"], chat, keyboard)
