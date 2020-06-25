@@ -131,6 +131,14 @@ def retrieve_data(EndPoint, Book = None):
             lista = list(reader)
             Returner = lista[-1]
         return Returner
+    if EndPoint == 'OrderBook':
+        Returner = []
+        csvname = path + EndPoint + '_' + Book + sufix
+        with open(csvname, 'r') as csv_file:
+            reader = csv.reader(csv_file)
+            for i in reader:
+                Returner.append(i)
+        return Returner
 
 def CreateDictForKeyboar(list,EndPoint=None):
     Returner = []
@@ -161,7 +169,6 @@ def search_text(text, chat, UId):
     ltext = text
     if text.startswith("/"):
         comando = text[1:]
-        print('xxxxx')
         ##START##
         if comando == "start":
             keyboard = build_inlinekeyboard(acuerdo)
@@ -215,30 +222,23 @@ def search_text(text, chat, UId):
         elif comando.startswith("Compras"):
             try:
                 bbook = ltext
-                book = bbook[9:]
-                print(book)
-                a = 0
-                b = 0
-                c = 1
-                d = (len(lbids)/2)
-                g = "Fecha: {}".format(Fecha)
-                m = []
-                h = ""
-                send_message(g, chat)
-                while a != d:
-                    e = orderbookrr[0].format(lbids[b])
-                    f = orderbookrr[1].format(lbids[c])
-                    sa = str(a)
-                    m.append(sa)
-                    m.append("\n")
-                    m.append(e)
-                    m.append("\n")
-                    m.append(f)
-                    m.append("\n")
-                    b = b + 2
-                    c = c + 2
-                    a = a + 1
-                send_message(h.join(m),chat)
+                book = bbook[8:]
+                RawCompras = retrieve_data('OrderBook', book)
+                Compras = []
+                for i in RawCompras:
+                    if i[3] == 'bids':
+                        Compras.append(i)
+                Texto = ""
+                for Compra in Compras:
+                    Lista = []
+                    Contador = 0
+                    for i in Compra:
+                        dos = orderbookrr[Contador].format(i)
+                        Lista.append(dos)
+                        Lista.append('\n')
+                        Contador += 1
+                    Mensaje = Texto.join(Lista)
+                    send_message(Mensaje, chat)
                 keyboard = build_inlinekeyboard(orderbooke)
                 send_message(mensajes["tickere"], chat, keyboard)
             except TypeError as e:
@@ -247,33 +247,23 @@ def search_text(text, chat, UId):
         elif comando == "Ventas":
             try:
                 bbook = ltext
-                print(bbook)
-                book = bbook[9:]
-                if book == "":
-                    raise TypeError ("Libro incorrecto")
-                lbids, lasks, Fecha = bpa.orderbook(book)
-                a = 0
-                b = 0
-                c = 1
-                d = (len(lasks)/2)
-                g = "Fecha: {}".format(Fecha)
-                m = []
-                h = ""
-                send_message(g, chat)
-                while a != d:
-                    e = orderbookrr[0].format(lasks[b])
-                    f = orderbookrr[1].format(lasks[c])
-                    sa = str(a)
-                    m.append(sa)
-                    m.append("\n")
-                    m.append(e)
-                    m.append("\n")
-                    m.append(f)
-                    m.append("\n")
-                    b = b + 2
-                    c = c + 2
-                    a = a + 1
-                send_message(h.join(m),chat)
+                book = bbook[8:]
+                RawVentas = retrieve_data('OrderBook', book)
+                Ventas = []
+                for i in RawVentas:
+                    if i[3] == 'asks':
+                        Ventas.append(i)
+                Texto = ""
+                for Venta in Ventas:
+                    Lista = []
+                    Contador = 0
+                    for i in Compra:
+                        dos = orderbookrr[Contador].format(i)
+                        Lista.append(dos)
+                        Lista.append('\n')
+                        Contador += 1
+                    Mensaje = Texto.join(Lista)
+                    send_message(Mensaje, chat)
                 keyboard = build_inlinekeyboard(orderbooke)
                 send_message(mensajes["tickere"], chat, keyboard)
             except TypeError as e:

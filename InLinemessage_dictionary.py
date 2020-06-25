@@ -69,28 +69,7 @@ tickere = [
 {'text':'API Publica','callback_data':'Pública.'}
 ]
 
-orderbook = [
-{'text':'btc - mxn','callback_data':'OrderBookbtc_mxn'},
-{'text':'eth - btc','callback_data':'OrderBooketh_btc'},
-{'text':'eth - mxn','callback_data':'OrderBooketh_mxn'},
-{'text':'xrp - btc','callback_data':'OrderBookxrp_btc'},
-{'text':'xrp - mxn','callback_data':'OrderBookxrp_mxn'},
-{'text':'ltc - btc','callback_data':'OrderBookltc_btc'},
-{'text':'ltc - mxn','callback_data':'OrderBookltc_mxn'},
-{'text':'bch - btc','callback_data':'OrderBookbch_btc'},
-{'text':'bch - mxn','callback_data':'OrderBookbch_mxn'},
-{'text':'tusd - btc','callback_data':'OrderBooktusd_btc'},
-{'text':'tusd - mxn','callback_data':'OrderBooktusd_mxn'},
-{'text':'mana - btc','callback_data':'OrderBookmana_btc'},
-{'text':'mana - mxn','callback_data':'OrderBookmana_mxn'},
-{'text':'gnt - btc','callback_data':'OrderBookgnt_btc'},
-{'text':'gnt - mxn','callback_data':'OrderBookgnt_mxn'},
-{'text':'bat - btc','callback_data':'OrderBookbat_btc'},
-{'text':'bat - mxn','callback_data':'OrderBookbat_mxn'},
-{'text': 'Regresar', 'callback_data': 'Pública.'}
-]
-
-orderbookrr = ['Precio: {}', 'Cantidad: {}']
+orderbookrr = ['Libro: {}','Precio: {}', 'Cantidad: {}', 'Lado: {}', 'Actualizado al: {}', 'Secuencia: {}']
 
 orderbooke = [
 {'text':'Regresar a OrderBook','callback_data':'OrderBook'},
