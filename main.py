@@ -139,6 +139,14 @@ def retrieve_data(EndPoint, Book = None):
             for i in reader:
                 Returner.append(i)
         return Returner
+    if EndPoint == 'Trades':
+        Returner = []
+        csvname = path + EndPoint + '_' + Book + sufix
+        with open(csvname, 'r') as csv_file:
+            reader = csv.reader(csv_file)
+            for i in reader:
+                Returner.append(i)
+        return Returner
 
 def CreateDictForKeyboar(list,EndPoint=None):
     Returner = []
@@ -244,10 +252,10 @@ def search_text(text, chat, UId):
             except TypeError as e:
                 print(e)
         ##ORDERBOOK VENTAS##
-        elif comando == "Ventas":
+        elif comando.startswith("Ventas"):
             try:
                 bbook = ltext
-                book = bbook[8:]
+                book = bbook[7:]
                 RawVentas = retrieve_data('OrderBook', book)
                 Ventas = []
                 for i in RawVentas:
@@ -257,7 +265,7 @@ def search_text(text, chat, UId):
                 for Venta in Ventas:
                     Lista = []
                     Contador = 0
-                    for i in Compra:
+                    for i in Venta:
                         dos = orderbookrr[Contador].format(i)
                         Lista.append(dos)
                         Lista.append('\n')
@@ -267,18 +275,24 @@ def search_text(text, chat, UId):
                 keyboard = build_inlinekeyboard(orderbooke)
                 send_message(mensajes["tickere"], chat, keyboard)
             except TypeError as e:
-                print(e)
+                send_message(str(e),chat)
         elif comando.startswith("Trades"):
             try:
-                #ltext = dbm.return_beforelastmessage(UId, 1)
                 bbook = ltext
                 book = bbook[7:]
-                if book == "":
-                    raise TypeError ("Libro incorrecto")
-                a = bpa.trades(book)
-                b = ""
+                Trades = retrieve_data('Trades',book)
+                Texto = ""
+                for Trade in Trades:
+                    Lista = []
+                    Contador = 0
+                    for i in Trade:
+                        Dos = tradesrr[Contador].format(i)
+                        Lista.append(Dos)
+                        Lista.append('\n')
+                        Contador += 1
+                    Mensaje = Texto.join(Lista)
+                    send_message(Mensaje,chat)
                 keyboard = build_inlinekeyboard(tradese)
-                send_message(b.join(a),chat)
                 send_message(mensajes["tradesr"],chat,keyboard)
             except TypeError as e:
                 send_message(str(e),chat)
@@ -300,12 +314,6 @@ def search_text(text, chat, UId):
     elif text == "Pública.":
         keyboard = build_inlinekeyboard(acuerdopositivo)
         send_message(mensajes["acepto"], chat, keyboard)
-    elif text == "Privada.":
-        keyboard = build_inlinekeyboard(apiprivada)
-        send_message(mensajes["apiprivada"], chat, keyboard)
-    elif text == "Entrar.":
-        keyboard = build_inlinekeyboard(entrar)
-        send_message(mensajes["entrar0"], chat, keyboard)
     else:
         send_message("Entrada invalida. Intente de nuevo.", chat)
 

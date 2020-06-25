@@ -51,25 +51,10 @@ AvailableBooks = [
 {'text':"Regresar",'callback_data':"Pública."}
 ]
 
-tickerr = [
-'Alto: {}',
-'Ultimo: {}',
-'Fecha: {}',
-'Libro: {}',
-'Volumen: {}',
-'PMP: {}',
-'Bajo: {}',
-'Venta: {}',
-'Compra: {}',
-'Cambio en 24 hrs.: {}'
-]
-
 tickere = [
 {'text':'Ticker','callback_data':'Ticker'},
 {'text':'API Publica','callback_data':'Pública.'}
 ]
-
-orderbookrr = ['Libro: {}','Precio: {}', 'Cantidad: {}', 'Lado: {}', 'Actualizado al: {}', 'Secuencia: {}']
 
 orderbooke = [
 {'text':'Regresar a OrderBook','callback_data':'OrderBook'},
@@ -80,3 +65,36 @@ tradese = [
 {'text':'Regresar a Trades','callback_data':'Trades'},
 {'text':'API Pública','callback_data':'Pública.'}
 ]
+
+#FORMATOS DE RESPUESTA
+
+orderbookrr = [
+                'Libro: {}',
+                'Precio: {}',
+                'Cantidad: {}',
+                'Lado: {}',
+                'Actualizado al: {}',
+                'Secuencia: {}'
+              ]
+
+tickerr = [
+            'Alto: {}',
+            'Ultimo: {}',
+            'Fecha: {}',
+            'Libro: {}',
+            'Volumen: {}',
+            'PMP: {}',
+            'Bajo: {}',
+            'Venta: {}',
+            'Compra: {}',
+            'Cambio en 24 hrs.: {}'
+          ]
+
+tradesrr = [
+            'Libro: {}',
+            'Fecha: {}',
+            'Cantidad: {}',
+            'Lado: {}',
+            'Precio: {}',
+            'TID: {}'
+           ]
