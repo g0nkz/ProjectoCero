@@ -31,7 +31,7 @@ def get_json_from_url(url):
 
 #SOLICITAR LISTA DE MENSAJES
 def get_updates(offset=None):
-    url = URL + "getUpdates?timeout=100"
+    url = URL + "getUpdates?timeout=50"
     if offset:
         url += "&offset={}".format(offset)
     js = get_json_from_url(url)
