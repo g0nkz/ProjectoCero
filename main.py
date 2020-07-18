@@ -173,7 +173,7 @@ def OrderBookDictCreator(Book):
 
 #DETERMINAR QUE HACER A PARTIR DEL TEXTO RECIVIDO
 def search_text(text, chat, UId):
-    print(text)
+    #print(text)
     ltext = text
     if text.startswith("/"):
         comando = text[1:]
@@ -250,7 +250,7 @@ def search_text(text, chat, UId):
                 keyboard = build_inlinekeyboard(orderbooke)
                 send_message(mensajes["tickere"], chat, keyboard)
             except TypeError as e:
-                print(e)
+                #print(e)
         ##ORDERBOOK VENTAS##
         elif comando.startswith("Ventas"):
             try:
