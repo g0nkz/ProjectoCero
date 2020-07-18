@@ -6,7 +6,8 @@ bpa = bitsohandler.PublicApi()
 
 def askfor(object = None, book = None, marker = None, sort = None, limit = None, aggregate = None):
     if object  ==  None:
-        print ("No object request")
+        #print ("No object request")
+        pass
     elif object == "AvailableBooks":
         try:
             books = bpa.available_books()
@@ -34,7 +35,7 @@ def askfor(object = None, book = None, marker = None, sort = None, limit = None,
             raise e
 
 def writecsv(Endpoint = None, Data = None):
-    print(Endpoint)
+    #print(Endpoint)
     try:
         path = "Data/Csvs/"
         sufix = ".csv"
