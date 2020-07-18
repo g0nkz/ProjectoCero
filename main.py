@@ -250,7 +250,7 @@ def search_text(text, chat, UId):
                 keyboard = build_inlinekeyboard(orderbooke)
                 send_message(mensajes["tickere"], chat, keyboard)
             except TypeError as e:
-                #print(e)
+                pass
         ##ORDERBOOK VENTAS##
         elif comando.startswith("Ventas"):
             try:
