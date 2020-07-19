@@ -3,14 +3,14 @@ import bitsohandler
 import time
 import logging
 
-Flogger = logging.getLogger(__name__)
-Flogger.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s:%(name)s:%(levelname)s:%(message)s')
-file_handler = logging.FileHandler('Data/Logs/Logger.log')
-file_handler.setFormatter(formatter)
-Flogger.addHandler(file_handler)
-
 bpa = bitsohandler.PublicApi()
+def SetUpLogger():
+    Flogger = logging.getLogger(__name__)
+    Flogger.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('%(asctime)s:%(name)s:%(levelname)s:%(message)s')
+    file_handler = logging.FileHandler('Data/Logs/Logger.log')
+    file_handler.setFormatter(formatter)
+    Flogger.addHandler(file_handler)
 
 def askfor(object = None, book = None, marker = None, sort = None, limit = None, aggregate = None):
     if object  ==  None:
@@ -124,6 +124,7 @@ def writecsv(Endpoint = None, Data = None):
         Flogger.error(e)
 
 def main():
+    SetUpLogger()
     while True:
         askfor("AvailableBooks")
         askfor("OrderBook")

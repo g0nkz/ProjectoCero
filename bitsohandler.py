@@ -13,16 +13,12 @@ file_handler = logging.FileHandler('Data/Logs/BitsoHandler.log')
 file_handler.setFormatter(formatter)
 Blogger.addHandler(file_handler)
 
-#logging.basicConfig(filename='Data/Logs/bitsohandler.log',level=logging.DEBUG,
-#                    format='%(asctime)s:%(name)s:%(levelname)s:%(message)s')
-
 URL = "https://api.bitso.com/v3/"
 
 DictPayloads={"AvailableBooks":("book", "minimum_amount", "maximum_amount", "minimum_price", "maximum_price", "minimum_value", "maximum_value"),
               "Ticker":("book", "volume", "high", "last", "low", "vwap", "ask", "bid", "created_at"),
               "OrderBook":(),
               "Trades":()
-
 }
 
 def get_url(url):
