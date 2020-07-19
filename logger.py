@@ -10,7 +10,6 @@ formatter = logging.Formatter('%(asctime)s:%(name)s:%(levelname)s:%(message)s')
 file_handler = logging.FileHandler('Data/Logs/Logger.log')
 file_handler.setFormatter(formatter)
 Flogger.addHandler(file_handler)
-print('axaxaxax')
 
 def askfor(object = None, book = None, marker = None, sort = None, limit = None, aggregate = None):
     if object  ==  None:
