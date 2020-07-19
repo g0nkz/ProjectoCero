@@ -1,41 +1,47 @@
 import csv
 import bitsohandler
 import time
+import logging
+
+Flogger = logging.getLogger(__name__)
+Flogger.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s:%(name)s:%(levelname)s:%(message)s')
+file_handler = logging.FileHandler('Data/Logs/Logger.log')
+file_handler.setFormatter(formatter)
+Flogger.addHandler(file_handler)
 
 bpa = bitsohandler.PublicApi()
 
 def askfor(object = None, book = None, marker = None, sort = None, limit = None, aggregate = None):
     if object  ==  None:
-        #print ("No object request")
-        pass
+        Flogger.error("No EndPoint selected")
     elif object == "AvailableBooks":
         try:
             books = bpa.available_books()
             writecsv(object,books)
         except Exception as e:
-            raise e
+            Flogger.error(e)
     elif object == "OrderBook":
         try:
             orders = bpa.orderbook()
             writecsv(object,orders)
         except Exception as e:
-            raise e
+            Flogger.error(e)
         pass
     elif object == "Ticker":
         try:
             ticker = bpa.ticker()
             writecsv(object,ticker)
         except Exception as e:
-            raise e
+            Flogger.error(e)
     elif object == "Trades":
         try:
             trades = bpa.trades()
             writecsv(object, trades)
         except Exception as e:
-            raise e
+            Flogger.error(e)
 
 def writecsv(Endpoint = None, Data = None):
-    #print(Endpoint)
     try:
         path = "Data/Csvs/"
         sufix = ".csv"
@@ -84,7 +90,7 @@ def writecsv(Endpoint = None, Data = None):
                                 writer = csv.writer(csv_file)
                                 writer.writerow(order)
             except Exception as e:
-                raise e
+                Flogger.error(e)
         elif Endpoint == "Ticker":
             try:
                 for i in Data:
@@ -97,9 +103,8 @@ def writecsv(Endpoint = None, Data = None):
                         csv_writer = csv.DictWriter(csv_file, fieldnames = header)
                         csv_writer.writerow(tickdict)
             except AttributeError as e:
-                raise e
+                Flogger.error(e)
         elif Endpoint == "Trades":
-
             try:
                 keys = []
                 for i in Data:
@@ -112,11 +117,11 @@ def writecsv(Endpoint = None, Data = None):
                             writer = csv.DictWriter(csv_file, fieldnames = header)
                             writer.writerow(trade)
             except Exception as e:
-                raise e
+                Flogger.error(e)
         elif Endpoint == None:
-            raise AttributeError("No se especificó un formato de Endpoint.")
+            Flogger.error(e)
     except Exception as e:
-        raise e
+        Flogger.error(e)
 
 def main():
     while True:

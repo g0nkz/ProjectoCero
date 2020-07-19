@@ -6,8 +6,15 @@ import hmac
 import hashlib
 import logging
 
-logging.basicConfig(filename='Data/Logs/bitsohandler.log',level=logging.DEBUG,
-                    format='%(asctime)s:%(name)s:%(levelname)s:%(message)s')
+Blogger = logging.getLogger(__name__)
+Blogger.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s:%(name)s:%(levelname)s:%(message)s')
+file_handler = logging.FileHandler('Data/Logs/BitsoHandler.log')
+file_handler.setFormatter(formatter)
+Blogger.addHandler(file_handler)
+
+#logging.basicConfig(filename='Data/Logs/bitsohandler.log',level=logging.DEBUG,
+#                    format='%(asctime)s:%(name)s:%(levelname)s:%(message)s')
 
 URL = "https://api.bitso.com/v3/"
 
@@ -24,8 +31,8 @@ def get_url(url):
         content = response.content.decode("utf8")
         return content
     except requests.exceptions.ConnectionError as e:
-        logging.error("PROBLEMAS DE CONEXIÓN.")
-        logging.error(e)
+        Blogger.error("PROBLEMAS DE CONEXIÓN.")
+        Blogger.error(e)
 
 def get_json_from_url(url):
     try:
@@ -33,8 +40,8 @@ def get_json_from_url(url):
         js = json.loads(content)
         return js
     except TypeError as e:
-        logging.error("get_json_from_url")
-        logging.error(e)
+        Blogger.error("get_json_from_url")
+        Blogger.error(e)
 
 class PublicApi:
     def available_books(self):
@@ -46,7 +53,7 @@ class PublicApi:
                 books.append(booksr["book"])
             return books
         except TypeError as e:
-            logging.error(e)
+            Blogger.error(e)
 
     def ticker(self):
         tick = []
