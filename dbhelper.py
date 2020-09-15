@@ -44,7 +44,6 @@ class DBUsers:
 
     def CheckTime(self, UID):
         cur = self.conn.cursor()
-        print(UID)
         stmt = "SELECT Timer FROM users WHERE UID = (?)"
         args = (UID,)
         return [x[0] for x in self.conn.execute(stmt, args)]

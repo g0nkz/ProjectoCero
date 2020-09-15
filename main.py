@@ -107,10 +107,6 @@ def HandleUsers(method = None, updates = None, TimerParam = None, UID = None):
             Time = time.time()
             dbu.SetTimer(TimerParam, UID, Time)
 
-# def CheckTimers():
-# print(gg)
-# pass
-
 #RESPONDER A TODOS LOS NO LEIDOS
 def HandleUpdates(updates):
     #EJECUTA EL MANEJO DE USUARIOS
@@ -194,7 +190,6 @@ def OrderBookDictCreator(Book):
 
 #DETERMINAR QUE HACER A PARTIR DEL TEXTO RECIVIDO
 def SearchText(text, chat, UID, updates):
-    print(text)
     ltext = text
     if text.startswith("/"):
         comando = text[1:]
@@ -305,7 +300,8 @@ def SearchText(text, chat, UID, updates):
             try:
                 bbook = ltext
                 book = bbook[7:]
-                Trades = RetrieveData('Trades',book)
+                TradesRaw = RetrieveData('Trades',book)
+                Trades = TradesRaw[:50]
                 Texto = ""
                 for Trade in Trades:
                     Lista = []

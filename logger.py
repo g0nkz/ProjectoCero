@@ -111,7 +111,7 @@ def writecsv(Endpoint = None, Data = None):
                 for key in keys:
                     for trade in Data[key]:
                         csvname = path + Endpoint + '_' + key + sufix
-                        with open(csvname,'a', newline='') as csv_file:
+                        with open(csvname,'r', newline='') as csv_file:
                             header = ['book','created_at','amount','maker_side','price','tid']
                             writer = csv.DictWriter(csv_file, fieldnames = header)
                             writer.writerow(trade)

@@ -78,7 +78,7 @@ orderbooke = [
 
 tradese = [
 {'text':'Ver otro libro','callback_data':'Trades'},
-{'text':'Regresar','callback_data':'Pública.'}
+{'text':'Regresar','callback_data':'MenuBitso.'}
 ]
 
 Configuration = [
