@@ -82,12 +82,12 @@ def writecsv(Endpoint = None, Data = None):
         elif Endpoint == "OrderBook":
             try:
                 for book in Data:
-                        libro = book[0][0]
-                        csvname = path + Endpoint + '_' + libro + sufix
-                        with open(csvname, 'w', newline='') as csv_file:
-                            for order in book:
-                                writer = csv.writer(csv_file)
-                                writer.writerow(order)
+                    libro = book[0][0]
+                    csvname = path + Endpoint + '_' + libro + sufix
+                    with open(csvname, 'a', newline='') as csv_file:
+                        for order in book:
+                            writer = csv.writer(csv_file)
+                            writer.writerow(order)
             except Exception as e:
                 Flogger.error(e)
         elif Endpoint == "Ticker":
@@ -111,7 +111,7 @@ def writecsv(Endpoint = None, Data = None):
                 for key in keys:
                     for trade in Data[key]:
                         csvname = path + Endpoint + '_' + key + sufix
-                        with open(csvname,'r', newline='') as csv_file:
+                        with open(csvname,'a', newline='') as csv_file:
                             header = ['book','created_at','amount','maker_side','price','tid']
                             writer = csv.DictWriter(csv_file, fieldnames = header)
                             writer.writerow(trade)
