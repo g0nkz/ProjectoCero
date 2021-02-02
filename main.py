@@ -12,6 +12,7 @@ from credentials import *
 from InLinemessage_dictionary import *
 
 dbu = dbhelper.DBUsers()
+dbb = dbhelper.DBBitso()
 ltext = []
 
 #DECLARAR ID DEL BOT Y URL DE TELEGRAM

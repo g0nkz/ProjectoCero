@@ -23,7 +23,7 @@ DictPayloads={"AvailableBooks":("book", "minimum_amount", "maximum_amount", "min
 
 def get_url(url):
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout = 1)
         content = response.content.decode("utf8")
         return content
     except requests.exceptions.ConnectionError as e:
@@ -118,7 +118,7 @@ class PublicApi:
             books = PublicApi.available_books(self)
             final = {}
             for book in books:
-                url = URL + "trades/?book={}".format(book)
+                url = URL + "trades/?book={}&limit=20".format(book)
                 atrades = get_json_from_url(url)
                 trades = atrades["payload"]
                 if marker == None:
