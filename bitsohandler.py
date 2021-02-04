@@ -50,35 +50,40 @@ class PublicApi:
             return books
         except TypeError as e:
             Blogger.error(e)
+            Blogger.error('Availabe Books')
 
     def ticker(self):
-        tick = []
-        url = URL + "ticker/"
-        dict = get_json_from_url(url)
-        for i in dict["payload"]:
-            list = []
-            Alto = i["high"]
-            Ultimo = i["last"]
-            Fecha = i["created_at"]
-            Libro = i["book"]
-            Volumen = i["volume"]
-            VWAP = i["vwap"]
-            Bajo = i["low"]
-            Venta = i["ask"]
-            Compra = i["bid"]
-            Cambio = i["change_24"]
-            list.append(Alto)
-            list.append(Ultimo)
-            list.append(Fecha)
-            list.append(Libro)
-            list.append(Volumen)
-            list.append(VWAP)
-            list.append(Bajo)
-            list.append(Venta)
-            list.append(Compra)
-            list.append(Cambio)
-            tick.append(list)
-        return tick
+        try:
+            tick = []
+            url = URL + "ticker/"
+            dict = get_json_from_url(url)
+            for i in dict["payload"]:
+                list = []
+                Alto = i["high"]
+                Ultimo = i["last"]
+                Fecha = i["created_at"]
+                Libro = i["book"]
+                Volumen = i["volume"]
+                VWAP = i["vwap"]
+                Bajo = i["low"]
+                Venta = i["ask"]
+                Compra = i["bid"]
+                Cambio = i["change_24"]
+                list.append(Alto)
+                list.append(Ultimo)
+                list.append(Fecha)
+                list.append(Libro)
+                list.append(Volumen)
+                list.append(VWAP)
+                list.append(Bajo)
+                list.append(Venta)
+                list.append(Compra)
+                list.append(Cambio)
+                tick.append(list)
+            return tick
+        except Exception as e:
+            Blogger.error(e)
+            Blogger.error('Ticker')
 
     def orderbook(self,aggregate=None):
         try:
@@ -111,7 +116,8 @@ class PublicApi:
                 orderbooks.append(listbook)
             return orderbooks
         except Exception as e:
-            raise e
+            Blogger.error(e)
+            Blogger.error('Order Book')
 
     def trades(self, marker=None):
         try:
@@ -125,4 +131,5 @@ class PublicApi:
                     final[book] = trades
             return final
         except Exception as e:
-            raise
+            Blogger.error(e)
+            Blogger.error('Trades')
