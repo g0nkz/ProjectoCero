@@ -2,10 +2,10 @@
 
 Un bot capaz de monitorear la actividad de las diferentes monedas disponibles en Bitso.
 
-# Funciones:
+## Funciones:
 - Llevar registro de la actividad de las diferentes monedas disponibles en bitso.
 
-# Funciones a implementar:
+## Funciones a implementar:
 - Alertas personalizadas.
 - Seguimiento de transacciones.
-- Generar reportes gráficos en intervalos establecidos.
+- Generar reportes gráficos.
