@@ -127,6 +127,7 @@ def main():
             Data = AskFor("Trades")
             WriteToDB("Trades", Data)
             Contador = 0
+            time.sleep(60)
 
 if __name__ == '__main__':
     main()
