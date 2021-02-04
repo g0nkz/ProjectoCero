@@ -113,16 +113,20 @@ def WriteToDB(EndPoint, Data):
 
 def main():
     dbb.BitsoSetup()
+    Contador = 0
     while True:
         Data = AskFor("AvailableBooks")
         WriteToDB("AvailableBooks", Data)
-        Data = AskFor("OrderBook")
-        WriteToDB("OrderBook", Data)
         Data = AskFor("Ticker")
         WriteToDB("Ticker", Data)
-        Data = AskFor("Trades")
-        WriteToDB("Trades", Data)
         time.sleep(60)
+        Contador += 1
+        if Contador >= 5:
+            Data = AskFor("OrderBook")
+            WriteToDB("OrderBook", Data)
+            Data = AskFor("Trades")
+            WriteToDB("Trades", Data)
+            Contador = 0
 
 if __name__ == '__main__':
     main()
