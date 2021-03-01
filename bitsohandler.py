@@ -27,8 +27,7 @@ def get_url(url):
         content = response.content.decode("utf8")
         return content
     except requests.exceptions.ConnectionError as e:
-        Blogger.error("PROBLEMAS DE CONEXIÓN.")
-        Blogger.error(e)
+        Blogger.error(f"Problemas de conexión : {e} ")
 
 def get_json_from_url(url):
     try:
@@ -36,8 +35,7 @@ def get_json_from_url(url):
         js = json.loads(content)
         return js
     except TypeError as e:
-        Blogger.error("get_json_from_url")
-        Blogger.error(e)
+        Blogger.error(f"En get_json_from_url : {e}")
 
 class PublicApi:
     def available_books(self):
@@ -49,8 +47,7 @@ class PublicApi:
                 books.append(booksr["book"])
             return books
         except TypeError as e:
-            Blogger.error(e)
-            Blogger.error('Availabe Books')
+            Blogger.error(f"En Availabe Books : {e}")
 
     def ticker(self):
         try:
@@ -82,8 +79,7 @@ class PublicApi:
                 tick.append(list)
             return tick
         except Exception as e:
-            Blogger.error(e)
-            Blogger.error('Ticker')
+            Blogger.error(f"En Ticker : {e}")
 
     def orderbook(self,aggregate=None):
         try:
@@ -116,20 +112,18 @@ class PublicApi:
                 orderbooks.append(listbook)
             return orderbooks
         except Exception as e:
-            Blogger.error(e)
-            Blogger.error('Order Book')
+            Blogger.error(f"En Order Book : {e}")
 
     def trades(self, marker=None):
         try:
             books = PublicApi.available_books(self)
             final = {}
             for book in books:
-                url = URL + "trades/?book={}&limit=20".format(book)
+                url = URL + "trades/?book={}".format(book)
                 atrades = get_json_from_url(url)
                 trades = atrades["payload"]
                 if marker == None:
                     final[book] = trades
             return final
         except Exception as e:
-            Blogger.error(e)
-            Blogger.error('Trades')
+            Blogger.error(f"En Trades : {e} {url}")

@@ -33,30 +33,26 @@ def AskFor(object = None, book = None, marker = None, sort = None, limit = None,
                 id += 1
             return Data
         except Exception as e:
-            Flogger.error(e)
-            Flogger.error(f"Error at AskFor: {object}")
+            Flogger.error(f"Error at AskFor at {object} : {e}")
     elif object == "OrderBook":
         try:
             orders = bpa.orderbook()
             return orders
         except Exception as e:
-            Flogger.error(e)
-            Flogger.error(f"Error at AskFor: {object}")
+            Flogger.error(f"Error at AskFor at {object} : {e}")
         pass
     elif object == "Ticker":
         try:
             ticker = bpa.ticker()
             return ticker
         except Exception as e:
-            Flogger.error(e)
-            Flogger.error(f"Error at AskFor: {object}")
+            Flogger.error(f"Error at AskFor at {object} : {e}")
     elif object == "Trades":
         try:
             trades = bpa.trades()
             return trades
         except Exception as e:
-            Flogger.error(e)
-            Flogger.error(f"Error at AskFor: {object}")
+            Flogger.error(f"Error at AskFor at {object} : {e}")
 
 def WriteToDB(EndPoint, Data):
     if EndPoint == "AvailableBooks":
@@ -72,8 +68,7 @@ def WriteToDB(EndPoint, Data):
                 for i in Data:
                     dbb.AddData(EndPoint, BId = i[0], Book = i[1])
         except Exception as e:
-            Flogger.error(e)
-            Flogger.error(f"Error at WriteToDB: {EndPoint}")
+            Flogger.error(f"Error at WriteToDB at {EndPoint} : {e}")
     elif EndPoint == "OrderBook":
         try:
             Counter = 0
@@ -82,15 +77,13 @@ def WriteToDB(EndPoint, Data):
                     dbb.AddData(EndPoint = EndPoint, Book = BookEntry[0], Price = float(BookEntry[1]), Amount = float(BookEntry[2]), Side = BookEntry[3], Updated_At = BookEntry[4], Sequence = int(BookEntry[5]))
                 Counter += 1
         except Exception as e:
-            Flogger.error(e)
-            Flogger.error(f"Error at WriteToDB: {EndPoint}")
+            Flogger.error(f"Error at WriteToDB at {EndPoint} : {e}")
     elif EndPoint == "Ticker":
         try:
             for Book in Data:
                 dbb.AddData(EndPoint = EndPoint, High = float(Book[0]), Last = float(Book[1]), Created_At = Book[2], Book = Book[3], Volume = float(Book[4]), VWAP = float(Book[5]), Low = float(Book[6]), Ask = float(Book[7]), Bid = float(Book[8]), Change_24 = float(Book[9]))
         except Exception as e:
-            Flogger.error(e)
-            Flogger.error(f"Error at WriteToDB: {EndPoint}")
+            Flogger.error(f"Error at WriteToDB at {EndPoint} : {e}")
     elif EndPoint == "Trades":
         try:
             RawBooks = AskFor("AvailableBooks")
@@ -101,8 +94,7 @@ def WriteToDB(EndPoint, Data):
                 for Entry in Data[i]:
                     dbb.AddData(EndPoint = EndPoint, Book = Entry['book'], Price = float(Entry['price']), Amount = float(Entry['amount']), Maker_Side = Entry['maker_side'], Created_At = Entry['created_at'], TId = int(Entry['tid']))
         except Exception as e:
-            Flogger.error(e)
-            Flogger.error(f"Error at WriteToDB: {EndPoint}")
+            Flogger.error(f"Error at WriteToDB at {EndPoint} : {e}")
 
 def WriteToCSV(EndPoint, Data):
     try:
@@ -153,7 +145,7 @@ def WriteToCSV(EndPoint, Data):
                                 writer = csv.writer(csv_file)
                                 writer.writerow(order)
             except Exception as e:
-                Flogger.error(e)
+                Flogger.error(f"Error at WriteToCSV at {EndPoint} : {e}")
         elif EndPoint == "Ticker":
             try:
                 for i in Data:
@@ -166,7 +158,7 @@ def WriteToCSV(EndPoint, Data):
                         csv_writer = csv.DictWriter(csv_file, fieldnames = header)
                         csv_writer.writerow(tickdict)
             except AttributeError as e:
-                Flogger.error(e)
+                Flogger.error(f"Error at WriteToCSV at {EndPoint} : {e}")
         elif EndPoint == "Trades":
             try:
                 keys = []
@@ -180,21 +172,26 @@ def WriteToCSV(EndPoint, Data):
                             writer = csv.DictWriter(csv_file, fieldnames = header)
                             writer.writerow(trade)
             except Exception as e:
-                Flogger.error(e)
+                Flogger.error(f"Error at WriteToCSV at {EndPoint} : {e}")
         elif EndPoint == None:
-            Flogger.error(e)
+            Flogger.error(f"Error at WriteToCSV at {EndPoint} : {e}")
     except Exception as e:
-        Flogger.error(e)
+        Flogger.error(f"Error at WriteToCSV at {EndPoint} : {e}")
 
 def main():
-    EndPoints = ["AvailableBooks","OrderBook","Ticker","Trades"]
+    EndPointsShort = ["AvailableBooks","Ticker"]
+    EndPointsLong = ["OrderBook","Trades"]
+    Contador = 0
     while True:
-        Inicio = time.time()
-        for i in EndPoints:
+        for i in EndPointsShort:
             data = AskFor(i)
-            WriteToDB(i, data)
-        Fin = time.time()
-        print(Fin - Inicio)
-        exit()
+            WriteToCSV(i, data)
+        Contador += 1
+        if Contador >= 5:
+            for i in EndPointsLong:
+                data = AskFor(i)
+                WriteToCSV(i, data)
+            Contador = 0
+        time.sleep(60)
 if __name__ == '__main__':
     main()
