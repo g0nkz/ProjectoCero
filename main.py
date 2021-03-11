@@ -354,7 +354,8 @@ def SearchText(text, chat, UID, updates):
         keyboard = BuildInlineKeyboard(InLineKeyBoardTimer)
         SendMessage(mensajes["Timer"], chat, keyboard)
     else:
-        SendMessage("Entrada invalida. Intente de nuevo.", chat)
+        keyboard = BuildInlineKeyboard(EntradaInvalida)
+        SendMessage(mensajes["EntradaInvalida"], chat, keyboard)
 
 #SOLICITAR ULTIMO MENSAJE Y ID DEL CHAT
 def GetLastChatIDAndText(updates):
