@@ -34,7 +34,8 @@ Configuracion: Muestra los ajustes que puede realizar a este bot.\n ',
 Temporizador: Ajustar el intervalo de tiempo entre mensajes automaticos.',
 'Timer':'Eliga un intervalo de tiempo o desactive los mensajes automaticos.',
 'Timerr':'Su configuracion ha sido cambiada. Puede volver a cambiar la configuracion o regresar al menu anterior.',
-'EmptyList':'Este libro esta vacio. Por favor intente con otro.'
+'EmptyList':'Este libro esta vacio. Por favor intente con otro.',
+'EntradaInvalida':'Entrada invalida, por favor intente de nuevo o eliga una opción.'
 }
 
 #Lista de 'botones'.
@@ -93,6 +94,11 @@ InLineKeyBoardTimer = [
 {'text':'5 horas','callback_data':'/Timer18000'},
 {'text':'Desactivar','callback_data':'/Timer0'},
 {'text':'Regresar','callback_data':'Configuration'}
+]
+
+EntradaInvalida = [
+{'text': 'Menu Bitso', 'callback_data': 'MenuBitso'},
+{'text': 'Configuracion', 'callback_data': 'Configuration'}
 ]
 
 #FORMATOS DE RESPUESTA
