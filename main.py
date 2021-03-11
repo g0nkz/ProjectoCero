@@ -131,7 +131,7 @@ def HandleUpdates(updates):
 
 #BUSCA LA INFORMACION SOLICITADA
 def RetrieveData(EndPoint, Book = None):
-    path = 'Data/Csvs/'
+    path = 'Data/CSVs/'
     sufix = '.csv'
     if EndPoint == 'AvailableBooks':
         Returner = []

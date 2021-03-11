@@ -23,7 +23,7 @@ DictPayloads={"AvailableBooks":("book", "minimum_amount", "maximum_amount", "min
 
 def get_url(url):
     try:
-        response = requests.get(url, timeout = 1)
+        response = requests.get(url, timeout = 2)
         content = response.content.decode("utf8")
         return content
     except requests.exceptions.ConnectionError as e:
